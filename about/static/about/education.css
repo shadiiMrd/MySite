@@ -1,0 +1,182 @@
+/* =========================
+   EDUCATION PAGE
+========================= */
+
+.education-section {
+    max-width: 1000px;
+    margin: 70px auto;
+    padding: 0 20px;
+}
+
+/* HEADER */
+
+.education-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.education-header h1 {
+    font-size: 42px;
+    color: var(--surface);
+    margin-bottom: 15px;
+}
+
+.education-header p {
+    max-width: 650px;
+    margin: auto;
+
+    color: #6B7280;
+    line-height: 1.9;
+    font-size: 16px;
+}
+
+/* CARD */
+
+.education-card {
+    background: white;
+
+    border-radius: 28px;
+
+    padding: 45px;
+
+    position: relative;
+
+    border: 1px solid rgba(124,58,237,.12);
+
+    box-shadow:
+        0 10px 25px rgba(91,33,182,.08),
+        0 20px 60px rgba(91,33,182,.08);
+}
+
+.education-card::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 100%;
+    height: 6px;
+
+    background: linear-gradient(
+        90deg,
+        #5B21B6,
+        #7C3AED,
+        #A78BFA
+    );
+}
+
+/* TOP */
+
+.education-top {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.degree-badge {
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    border-radius: 999px;
+
+    background: rgba(124,58,237,.12);
+
+    color: var(--accent);
+
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+.education-top h2 {
+    margin: 0 0 10px;
+
+    color: var(--body-text);
+
+    font-size: 28px;
+}
+
+.education-top h3 {
+    margin: 0;
+
+    color: #6B7280;
+
+    font-size: 18px;
+
+    font-weight: 500;
+}
+
+/* GRID */
+
+.education-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.item {
+    background: #F8FAFC;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    border: 1px solid rgba(124,58,237,.08);
+
+    transition: .3s;
+}
+
+.item:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 10px 20px rgba(91,33,182,.08);
+}
+
+.label {
+    display: block;
+
+    color: #6B7280;
+
+    font-size: 14px;
+
+    margin-bottom: 8px;
+}
+
+.value {
+    display: block;
+
+    color: var(--body-text);
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px) {
+
+    .education-header h1 {
+        font-size: 32px;
+    }
+
+    .education-card {
+        padding: 30px 20px;
+    }
+
+    .education-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .education-top h2 {
+        font-size: 22px;
+    }
+
+    .education-top h3 {
+        font-size: 16px;
+    }
+}

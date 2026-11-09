@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}تماس با من{% endblock %}
+
+{% block body %}
+
+<section class="page-container medium">
+
+    <div class="page-header">
+        <h1>تماس با من</h1>
+
+        <p>
+            خوشحال می‌شوم درباره فرصت‌های شغلی، همکاری در پروژه‌ها
+            یا هر موضوع مرتبط با توسعه نرم‌افزار با شما گفتگو کنم.
+        </p>
+    </div>
+
+    <div class="grid-auto">
+
+        <!-- EMAIL -->
+        <div class="card contact-card">
+            <div class="icon">📧</div>
+
+            <h2>ایمیل</h2>
+
+            <p>
+                برای ارتباط مستقیم می‌توانید به من ایمیل ارسال کنید.
+            </p>
+
+            <a href="mailto:shadiiim77@gmail.com">
+                shadiiim77@gmail.com
+            </a>
+        </div>
+
+        <!-- PHONE -->
+        <div class="card contact-card">
+            <div class="icon">📞</div>
+
+            <h2>شماره تماس</h2>
+
+            <p>
+                برای تماس تلفنی یا پیام در واتساپ می‌توانید با این شماره ارتباط برقرار کنید.
+            </p>
+
+            <a href="tel:+989123456789" class="phone-left" dir="ltr">
+                +98 921 130 8357
+            </a>
+        </div>
+
+        <!-- LINKEDIN -->
+        <div class="card contact-card">
+            <div class="icon">💼</div>
+
+            <h2>لینکدین</h2>
+
+            <p>
+                پروفایل حرفه‌ای و سوابق کاری من را مشاهده کنید.
+            </p>
+
+            <a href="https://www.linkedin.com/in/shadi-marandi-2b971642a"
+               target="_blank">
+                مشاهده پروفایل
+            </a>
+        </div>
+
+        <!-- GITHUB -->
+        <div class="card contact-card">
+            <div class="icon">💻</div>
+
+            <h2>گیت‌هاب</h2>
+
+            <p>
+                پروژه‌ها و نمونه کدهای من در گیت‌هاب.
+            </p>
+
+            <a href="https://github.com/shadiimrd"
+               target="_blank">
+                github.com/shadiimrd
+            </a>
+        </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:50px;">
+        <a href="{% static 'رزومه.pdf' %}"
+           class="cv-btn"
+           target="_blank">
+            دانلود رزومه
+        </a>
+    </div>
+
+</section>
+
+{% endblock %}

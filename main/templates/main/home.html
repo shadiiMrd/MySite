@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}خانه | رزومه من{% endblock %}
+
+{% block body %}
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-container">
+
+        <div class="hero-image">
+            <div class="image-frame">
+                <img src="{% static 'profile.jpeg' %}" alt="profile">
+            </div>
+        </div>
+
+        <div class="hero-text">
+
+            <h1>سلام 👋 من شادی مرندی هستم</h1>
+
+            <h2>توسعه‌دهنده Python و Django</h2>
+
+            <p>
+                توسعه‌دهنده بک‌اند با تمرکز بر طراحی و توسعه سیستم‌های تحت وب.
+                تجربه ساخت پروژه‌هایی مانند سامانه رزرو هتل، مدیریت کافه،
+                درخواست سفر و فروشگاه آنلاین را دارم.
+                علاقه‌مند به ساخت سیستم‌های تمیز، قابل توسعه و حرفه‌ای هستم.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">
+                    مشاهده پروژه‌ها
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+<section class="section">
+
+    <h2>درباره من</h2>
+
+    <p>
+        من ۴ سال تجربه در توسعه نرم‌افزار دارم و روی پروژه‌های واقعی وب کار
+        کرده‌ام. تخصص من Django، طراحی API و پایگاه داده است.
+    </p>
+
+</section>
+
+
+<!-- SKILLS -->
+<section class="section">
+
+    <h2>مهارت‌ها</h2>
+
+    <div class="skills">
+        <span>Python</span>
+        <span>Django</span>
+        <span>Django REST</span>
+        <span>PostgreSQL</span>
+        <span>SQL Server</span>
+        <span>Git / GitHub</span>
+        <span>HTML / CSS</span>
+        <span>Celery</span>
+    </div>
+
+</section>
+
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+
+    <h2>پروژه‌ها</h2>
+
+    <div class="grid-auto">
+
+        <div class="card">
+            <h3>سامانه مدیریت و درخواست سفر آنلاین</h3>
+            <p>سیستم مدیریت سفر</p>
+        </div>
+
+        <div class="card">
+            <h3>سامانه رزرو آنلاین هتل</h3>
+            <p>سیستم رزرو آنلاین با نقشه و مدیریت کاربران</p>
+        </div>
+
+        <div class="card">
+            <h3>سیستم مدیریت کافه</h3>
+            <p>سیستم مدیریت سفارش و رزرو میز</p>
+        </div>
+
+        <div class="card">
+            <h3>فروشگاه اینترنتی</h3>
+            <p>فروشگاه با سبد خرید و مدیریت محصولات</p>
+        </div>
+        <div class="card">
+            <h3>سامانه مدیریت و آموزش مربی تکواندو</h3>
+            <p>آموزش تکواندو</p>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

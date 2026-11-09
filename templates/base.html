@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}نمونه کارهای من{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+    {% block css %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">شادی مرندی | توسعه دهنده جنگو</div>
+
+    <nav class="menu">
+
+        <a href="{% url 'main:main' %}">خانه</a>
+        <!-- پروژه‌ها -->
+        <a href="{% url 'project:list' %}">پروژه ها</a>
+
+
+        <!--  تجربه کاری -->
+        <a href="{% url 'experience:list' %}">
+            تجربه کاری
+        </a>
+        
+        <!-- درباره من -->
+        <div class="dropdown" id="dropdown-about">
+            <button class="dropbtn" onclick="toggleDropdown('dropdown-about')">درباره من ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'about:my_story' %}">داستان من</a>
+                <a href="{% url 'about:skill' %}">مهارت‌ها</a>
+                <a href="{% url 'about:education' %}">تحصیلات</a>
+            </div>
+        </div>
+
+
+        <!-- تماس -->
+        <a href="{% url 'contact:info' %}">
+            تماس
+        </a>
+
+    </nav>
+
+</header>
+
+{% block body %}{% endblock %}
+
+<script>
+    // Toggle dropdown on click
+    function toggleDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        const isActive = dropdown.classList.contains('active');
+
+        // Close all dropdowns
+        document.querySelectorAll('.dropdown').forEach(d => {
+            d.classList.remove('active');
+        });
+
+        // If it wasn't active, open it
+        if (!isActive) {
+            dropdown.classList.add('active');
+        }
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown').forEach(d => {
+                d.classList.remove('active');
+            });
+        }
+    });
+
+    // Prevent dropdown from closing when clicking inside it
+    document.querySelectorAll('.dropdown-content').forEach(content => {
+        content.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    });
+
+    // Close dropdown when clicking on a link inside
+    document.querySelectorAll('.dropdown-content a').forEach(link => {
+        link.addEventListener('click', function () {
+            this.closest('.dropdown').classList.remove('active');
+        });
+    });
+
+    {% block js %}{% endblock %}
+</script>
+
+</body>
+</html>

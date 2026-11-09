@@ -1,0 +1,60 @@
+# ---------- Django ----------
+*.log
+*.pot
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# ---------- Python ----------
+*.pyc
+*.py[cod]
+*$py.class
+__pycache__/
+*.so
+.Python
+*.egg-info/
+*.egg
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---------- Virtual environments & secrets ----------
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ---------- Tests / coverage ----------
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+.pytest_cache/
+.hypothesis/
+
+# ---------- Tools / caches ----------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.ipynb_checkpoints
+pyrightconfig.json
+poetry.toml
+*.mo
+
+# ---------- PyCharm / JetBrains ----------
+.idea/
+*.iws
+out/
+
+# ---------- OS files ----------
+.DS_Store
+Thumbs.db
