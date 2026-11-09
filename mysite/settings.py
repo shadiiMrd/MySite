@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-i*_ovu_q2x$=z-q0=8yo-swn((g*zkp%0r8pi_8qr=^)uq!&zj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shadimrd.pythonanywhere.com']
 
 
 # Application definition
