@@ -4,36 +4,36 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#6A0DAD">
     <title>{% block title %}نمونه کارهای من{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'base.css' %}">
-
     {% block css %}{% endblock %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header class="navbar">
 
-    <div class="logo">شادی مرندی | توسعه دهنده جنگو</div>
+    <a class="logo" href="{% url 'main:main' %}">
+        شادی مرندی
+        <small>توسعه‌دهنده جنگو</small>
+    </a>
 
-    <nav class="menu">
+    <button class="nav-toggle" id="nav-toggle" type="button"
+            aria-label="باز و بسته کردن منو" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span><span></span>
+    </button>
 
-        <a href="{% url 'main:main' %}">خانه</a>
-        <!-- پروژه‌ها -->
-        <a href="{% url 'project:list' %}">پروژه ها</a>
+    <nav class="menu" id="menu">
+        <a href="{% url 'main:main' %}" {% if request.resolver_match.namespace == 'main' %}aria-current="page"{% endif %}>خانه</a>
+        <a href="{% url 'project:list' %}" {% if request.resolver_match.namespace == 'project' %}aria-current="page"{% endif %}>پروژه‌ها</a>
+        <a href="{% url 'experience:list' %}" {% if request.resolver_match.namespace == 'experience' %}aria-current="page"{% endif %}>تجربه کاری</a>
 
-
-        <!--  تجربه کاری -->
-        <a href="{% url 'experience:list' %}">
-            تجربه کاری
-        </a>
-        
-        <!-- درباره من -->
         <div class="dropdown" id="dropdown-about">
-            <button class="dropbtn" onclick="toggleDropdown('dropdown-about')">درباره من ▾</button>
+            <button class="dropbtn" type="button" aria-expanded="false"
+                    {% if request.resolver_match.namespace == 'about' %}aria-current="page"{% endif %}>درباره من ▾</button>
             <div class="dropdown-content">
                 <a href="{% url 'about:my_story' %}">داستان من</a>
                 <a href="{% url 'about:skill' %}">مهارت‌ها</a>
@@ -41,57 +41,69 @@
             </div>
         </div>
 
-
-        <!-- تماس -->
-        <a href="{% url 'contact:info' %}">
-            تماس
-        </a>
-
+        <a href="{% url 'contact:info' %}" {% if request.resolver_match.namespace == 'contact' %}aria-current="page"{% endif %}>تماس</a>
     </nav>
 
 </header>
 
 {% block body %}{% endblock %}
-
+<footer class="footer">
+    <div class="footer-links">
+        <a href="https://github.com/shadiimrd" target="_blank" rel="noopener noreferrer">گیت‌هاب</a>
+        <a href="https://www.linkedin.com/in/shadi-marandi-2b971642a" target="_blank" rel="noopener noreferrer">لینکدین</a>
+        <a href="mailto:shadiiim77@gmail.com">ایمیل</a>
+    </div>
+</footer>
 <script>
-    // Toggle dropdown on click
-    function toggleDropdown(dropdownId) {
-        const dropdown = document.getElementById(dropdownId);
-        const isActive = dropdown.classList.contains('active');
+    (function () {
+        var toggle = document.getElementById('nav-toggle');
+        var menu = document.getElementById('menu');
+        var dropdowns = document.querySelectorAll('.dropdown');
 
-        // Close all dropdowns
-        document.querySelectorAll('.dropdown').forEach(d => {
-            d.classList.remove('active');
-        });
-
-        // If it wasn't active, open it
-        if (!isActive) {
-            dropdown.classList.add('active');
-        }
-    }
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function (event) {
-        if (!event.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown').forEach(d => {
+        function closeDropdowns() {
+            dropdowns.forEach(function (d) {
                 d.classList.remove('active');
+                d.querySelector('.dropbtn').setAttribute('aria-expanded', 'false');
             });
         }
-    });
 
-    // Prevent dropdown from closing when clicking inside it
-    document.querySelectorAll('.dropdown-content').forEach(content => {
-        content.addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
-    });
+        function closeMenu() {
+            menu.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
 
-    // Close dropdown when clicking on a link inside
-    document.querySelectorAll('.dropdown-content a').forEach(link => {
-        link.addEventListener('click', function () {
-            this.closest('.dropdown').classList.remove('active');
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var open = menu.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
-    });
+
+        dropdowns.forEach(function (d) {
+            var btn = d.querySelector('.dropbtn');
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var wasActive = d.classList.contains('active');
+                closeDropdowns();
+                if (!wasActive) {
+                    d.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.dropdown')) closeDropdowns();
+            if (!e.target.closest('.navbar')) closeMenu();
+        });
+
+        menu.querySelectorAll('a').forEach(function (a) {
+            a.addEventListener('click', function () { closeDropdowns(); closeMenu(); });
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { closeDropdowns(); closeMenu(); }
+        });
+    })();
 
     {% block js %}{% endblock %}
 </script>

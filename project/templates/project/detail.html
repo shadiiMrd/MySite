@@ -1,108 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>جزئیات پروژه</title>
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="{% static 'project/detail.css' %}">
-{% endblock %}
+{% block title %}{{ project.name }}{% endblock %}
 
 {% block body %}
-    <div class="page-container">
+<div class="page-container narrow">
 
-        <!-- ===== DETAIL CARD ===== -->
-        <div class="detail-card">
+    <article class="detail-card">
 
-            <!-- ===== CARD BODY ===== -->
-            <div class="card-body">
+        <div class="project-title">
+            <h1>{{ project.name }}</h1>
+            <span class="badge">{{ project.type }}</span>
+        </div>
 
-                <!-- ===== TITLE + TYPE ===== -->
-                <div class="project-title">
-                    <h1>{{ project.name }}</h1>
-                    <span class="project-type">{{ project.type }}</span>
+        <div class="meta-grid">
+            <div class="meta-item">
+                <span class="label">کارفرما</span>
+                <span class="value">{{ project.get_employer_display }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="label">تاریخ انتشار</span>
+                <span class="value">{{ project.get_persian_date }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="label">نوع پروژه</span>
+                <span class="value">{{ project.type }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="label">وضعیت</span>
+                <span class="value">
+                    <span class="status-badge">{{ project.status|default:"تکمیل شده" }}</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="description">
+            <h2>توضیح مختصر</h2>
+            <p>{{ project.short_description }}</p>
+        </div>
+
+        <div class="full-description">
+            <h2>توضیحات کامل</h2>
+            {{ project.full_description|linebreaks }}
+        </div>
+
+        {% if project.video_file and project.video_file.url %}
+            <div class="description">
+                <h2>دموی سامانه</h2>
+                <div class="video-section">
+                    <video controls playsinline preload="metadata">
+                        <source src="{{ project.video_file.url }}" type="video/mp4">
+                        مرورگر شما ویدئو را پشتیبانی نمی‌کند.
+                    </video>
                 </div>
+            </div>
+        {% endif %}
 
-                <!-- ===== META INFO ===== -->
-                <div class="meta-grid">
-                    <div class="meta-item">
-                        <span class="label">کارفرما</span>
-                        <span class="value">{{ project.employer }}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="label">تاریخ انتشار</span>
-                        <span class="value">{{ project.get_persian_date }}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="label">نوع پروژه</span>
-                        <span class="value">{{ project.type }}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="label">وضعیت</span>
-                        <span class="value">
-                            <span class="badge" style="background: #E8F5E9; color: #2E7D32;">
-                                {{ project.status|default:"تکمیل شده" }}
-                            </span>
-                        </span>
-                    </div>
-                </div>
+        <div class="tags">
+            <span class="tag">#Django</span>
+            <span class="tag">#REST_API</span>
+        </div>
 
-                <!-- ===== SHORT DESCRIPTION ===== -->
-                <div class="description">
-                    <h2>توضیح مختصر</h2>
-                    <p>{{ project.short_description }}</p>
-                </div>
+        {% if project.github_url %}
+            <div class="action-buttons">
+                <a href="{{ project.github_url }}" class="btn btn-github" target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    مشاهده در گیت‌هاب
+                </a>
+            </div>
+        {% endif %}
 
-                <!-- ===== FULL DESCRIPTION ===== -->
-                <div class="full-description">
-                    <h2>توضیحات کامل</h2>
-                    <p>{{ project.full_description|linebreaks }}</p>
-                </div>
+    </article>
 
+    <a href="{% url 'project:list' %}" class="back-link">→ بازگشت به لیست پروژه‌ها</a>
 
-                <div class="description">
-                    <h2>دموی سامانه</h2>
-                    {% if project.video_file and project.video_file.url %}
-                        <div class="video-section"
-                             style="margin: 30px 0; border-radius: 14px; overflow: hidden; background: #000; box-shadow: var(--shadow);">
-                            <video controls style="width: 100%; max-height: 500px; display: block;">
-                                <source src="{{ project.video_file.url }}" type="video/mp4">
-                                مرورگر شما ویدئو را پشتیبانی نمی‌کند.
-                            </video>
-                        </div>
-                    {% endif %}
-                </div>
-
-
-                <!-- ===== TAGS ===== -->
-                <div class="tags">
-                    <span class="tag">#Django</span>
-                    <span class="tag">#REST_API</span>
-                </div>
-
-                <!-- ===== ACTION BUTTONS ===== -->
-                <div class="action-buttons">
-                    {% if project.github_url %}
-                        <a href="{{ project.github_url }}" class="btn btn-github" target="_blank">
-                            <span style="display: inline-flex; gap: 8px; align-items: center;">
-                                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"
-                                     style="display: inline-block;">
-                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                                </svg>
-                                مشاهده در گیت‌هاب
-                            </span>
-                        </a>
-                    {% endif %}
-                </div>
-
-            </div> <!-- end card-body -->
-        </div> <!-- end detail-card -->
-
-        <!-- ===== BACK LINK ===== -->
-        <a href="{% url 'project:list' %}" class="back-link">
-            <span style="font-size: 20px;">←</span> بازگشت به لیست پروژه‌ها
-        </a>
-
-    </div>
+</div>
 {% endblock %}

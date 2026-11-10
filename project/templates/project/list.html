@@ -2,140 +2,80 @@
 {% load static %}
 
 {% block title %}پروژه‌ها{% endblock %}
-{% block css %}
-    <link rel="stylesheet" href="{% static 'project/list.css' %}">
-{% endblock %}
-
 
 {% block body %}
 
 <section class="page-container">
 
-    <!-- =====================================================
-         HEADER
-    ===================================================== -->
-
     <div class="page-header">
-        <span class="page-label">
-            💻 پروژه‌های برنامه‌نویسی
-        </span>
         <h1>پروژه‌ها</h1>
-        <p>
-            مجموعه‌ای از پروژه‌های شخصی و نمونه‌کارهای توسعه داده شده با Django
-        </p>
+        <p>مجموعه‌ای از پروژه‌های شخصی و نمونه‌کارهای توسعه داده شده</p>
     </div>
 
-    <!-- =====================================================
-         FILTER
-    ===================================================== -->
-
+    <!-- FILTER -->
     <form method="get" class="project-filter-form">
 
-        <div class="projects-toolbar">
+        {% if request.GET.type %}
+            <input type="hidden" name="type" value="{{ request.GET.type }}">
+        {% endif %}
 
-            <div class="filter-group">
-
-                <!-- SEARCH -->
-                <div class="filter-search">
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request.GET.search|default:'' }}"
-                        placeholder="جستجوی پروژه..."
-                        autocomplete="off"
-                    >
-                </div>
-
-                <!-- DATE SORT -->
-                <div class="filter-sort">
-                    <select name="date_sort" class="form-control">
-                        <option value="">مرتب‌سازی</option>
-                        <option value="-date" {% if request.GET.date_sort == '-date' %}selected{% endif %}>جدیدترین</option>
-                        <option value="date" {% if request.GET.date_sort == 'date' %}selected{% endif %}>قدیمی‌ترین</option>
-                    </select>
-                </div>
-
-                <!-- ALL -->
-                <a
-                    href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}"
-                    class="filter {% if not request.GET.type %}active{% endif %}"
-                >
-                    همه
-                </a>
-
-                <!-- DJANGO -->
-                <a
-                    href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}&type={{ 'django'|urlencode }}"
-                    class="filter {% if request.GET.type == 'django' %}active{% endif %}"
-                >
-                    Django
-                </a>
-
-                <!-- WORDPRESS -->
-                <a
-                    href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}&type={{ 'wordpress'|urlencode }}"
-                    class="filter {% if request.GET.type == 'wordpress' %}active{% endif %}"
-                >
-                    WordPress
-                </a>
-
-                <!-- SEARCH BUTTON -->
-                <button
-                    type="submit"
-                    class="filter-submit"
-                >
-                    جستجو
-                </button>
-
+        <div class="filter-row">
+            <div class="filter-search">
+                <input type="text" name="search" value="{{ request.GET.search|default:'' }}"
+                       placeholder="جستجوی پروژه..." autocomplete="off" aria-label="جستجوی پروژه">
             </div>
 
-            <!-- RESULTS COUNT -->
+            <div class="filter-sort">
+                <select name="date_sort" aria-label="مرتب‌سازی">
+                    <option value="">مرتب‌سازی</option>
+                    <option value="-date" {% if request.GET.date_sort == '-date' %}selected{% endif %}>جدیدترین</option>
+                    <option value="date" {% if request.GET.date_sort == 'date' %}selected{% endif %}>قدیمی‌ترین</option>
+                </select>
+            </div>
+
+            <button type="submit" class="filter-submit">جستجو</button>
+        </div>
+
+        <div class="chips-row">
+            <div class="filter-chips">
+                <a href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}"
+                   class="filter {% if not request.GET.type %}active{% endif %}">همه</a>
+
+                <a href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}&type=django"
+                   class="filter {% if request.GET.type == 'django' %}active{% endif %}">Django</a>
+
+                <a href="?search={{ request.GET.search|urlencode }}&date_sort={{ request.GET.date_sort|urlencode }}&type=wordpress"
+                   class="filter {% if request.GET.type == 'wordpress' %}active{% endif %}">WordPress</a>
+            </div>
+
             <div class="results-count">
-                <strong>
-                    {{ page_obj.paginator.count }}
-                </strong>
-                <span>
-                    پروژه
-                </span>
+                <strong>{{ page_obj.paginator.count }}</strong> پروژه
             </div>
-
         </div>
 
     </form>
 
-    <!-- =====================================================
-         PROJECTS
-    ===================================================== -->
-
+    <!-- PROJECTS -->
     {% if page_obj.object_list %}
 
         <div class="grid-projects">
-
             {% for project in page_obj %}
-
-                <a href="{% url 'project:detail' project.id %}" style="text-decoration: none; color: inherit; display: block;">
+                <a href="{% url 'project:detail' project.id %}" class="card-link">
                     <div class="card card-gradient">
 
-                        <!-- TYPE BADGE -->
                         <div class="project-badge">
-                            {% if project.type == 'django' %}
-                                Django
-                            {% elif project.type == 'wordpress' %}
-                                WordPress
-                            {% endif %}
+                            {% if project.type == 'django' %}Django{% elif project.type == 'wordpress' %}WordPress{% endif %}
                         </div>
 
-                        <div class="content-header project-header">
+                        <div class="project-header">
                             <h2>{{ project.name }}</h2>
                             <h3>{{ project.get_employer_display }}</h3>
                         </div>
 
                         <div class="project-meta">
-                            <b>تاریخ:</b> {{ project.get_persian_date }}
+                            {{ project.get_persian_date }}
                             {% if project.status %}
-                                <span class="project-status {{ project.status|slugify }}">
-                                    {{ project.status }}
-                                </span>
+                                <span class="project-status">{{ project.status }}</span>
                             {% endif %}
                         </div>
 
@@ -143,85 +83,58 @@
                             <p>{{ project.short_description }}</p>
 
                             {% with features=project.get_features_list %}
-                            {% if features %}
-                            <ul>
-                                {% for feature in features %}
-                                    <li>{{ feature }}</li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
+                                {% if features %}
+                                    <ul>
+                                        {% for feature in features %}
+                                            <li>{{ feature }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             {% endwith %}
                         </div>
 
                     </div>
                 </a>
-
             {% endfor %}
-
         </div>
 
-        <!-- =====================================================
-             PAGINATION
-        ===================================================== -->
-
+        <!-- PAGINATION -->
         {% if page_obj.has_other_pages %}
-
             <nav class="pagination" aria-label="صفحه‌بندی پروژه‌ها">
 
                 {% if page_obj.has_previous %}
-                    <a
-                        href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}"
-                        class="pagination-btn pagination-prev"
-                    >
-                        ← قبلی
-                    </a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}"
+                       class="pagination-btn">← قبلی</a>
                 {% else %}
-                    <span class="pagination-btn pagination-disabled">
-                        ← قبلی
-                    </span>
+                    <span class="pagination-btn pagination-disabled">← قبلی</span>
                 {% endif %}
 
                 <div class="pagination-pages">
                     {% for num in page_obj.paginator.page_range %}
                         {% if num == page_obj.number %}
-                            <span class="pagination-page active" aria-current="page">
-                                {{ num }}
-                            </span>
+                            <span class="pagination-page active" aria-current="page">{{ num }}</span>
                         {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
-                            <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}" class="pagination-page">
-                                {{ num }}
-                            </a>
+                            <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}"
+                               class="pagination-page">{{ num }}</a>
                         {% endif %}
                     {% endfor %}
                 </div>
 
                 {% if page_obj.has_next %}
-                    <a
-                        href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}"
-                        class="pagination-btn pagination-next"
-                    >
-                        بعدی →
-                    </a>
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type|urlencode }}{% endif %}{% if request.GET.date_sort %}&date_sort={{ request.GET.date_sort|urlencode }}{% endif %}"
+                       class="pagination-btn">بعدی →</a>
                 {% else %}
-                    <span class="pagination-btn pagination-disabled">
-                        بعدی →
-                    </span>
+                    <span class="pagination-btn pagination-disabled">بعدی →</span>
                 {% endif %}
 
             </nav>
-
         {% endif %}
 
     {% else %}
 
-        <!-- EMPTY -->
         <div class="empty-state">
-            <div class="empty-icon">
-                💻
-            </div>
-            <h2>
-                پروژه‌ای پیدا نشد
-            </h2>
+            <div class="empty-icon">💻</div>
+            <h2>پروژه‌ای پیدا نشد</h2>
             <p>
                 {% if request.GET.search or request.GET.type %}
                     با تغییر عبارت جستجو یا نوع پروژه دوباره امتحان کن.

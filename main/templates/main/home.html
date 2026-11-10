@@ -5,107 +5,91 @@
 
 {% block body %}
 
-<!-- HERO -->
-<section class="hero">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
 
-    <div class="hero-container">
-
-        <div class="hero-image">
-            <div class="image-frame">
-                <img src="{% static 'profile.jpeg' %}" alt="profile">
+            <div class="hero-image">
+                <div class="image-frame">
+                    <img src="{% static '../../../media/main/photo/profile.jpeg' %}" alt="تصویر شادی مرندی">
+                </div>
             </div>
+
+            <div class="hero-text">
+                <h1>شادی مرندی</h1>
+                <h2>توسعه‌دهنده بک‌اند Django</h2>
+
+                <p>
+                    طراحی و توسعه سامانه‌های مدیریتی، رزرو و فروشگاهی
+                    با Django و Django REST.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">مشاهده پروژه‌ها</a>
+                    <a href="/media/contact/file/resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">دانلود رزومه</a>
+                </div>
+
+                <div class="hero-links">
+                    <a href="https://github.com/shadiimrd" target="_blank" rel="noopener noreferrer">گیت‌هاب</a>
+                    <a href="https://www.linkedin.com/in/shadi-marandi-2b971642a" target="_blank" rel="noopener noreferrer">لینکدین</a>
+                    <a href="{% url 'contact:info' %}">تماس با من</a>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <div class="hero-text">
+    <!-- TRUST -->
+    <section class="trust" aria-label="خلاصه مهارت‌ها">
+        <div class="trust-item"><strong>+۴ سال</strong><span>سابقه کار نرم‌افزار</span></div>
+        <div class="trust-item"><strong>Django</strong><span>و Django REST</span></div>
+        <div class="trust-item"><strong>SQL Server</strong><span>و PostgreSQL</span></div>
+    </section>
 
-            <h1>سلام 👋 من شادی مرندی هستم</h1>
+    <!-- ABOUT -->
+    <section class="section">
+        <h2>درباره من</h2>
+        <p>
+            کارشناس نرم‌افزار با سابقه‌ی کار از سال ۱۴۰۰ در حوزه‌ی نگهداری
+            سامانه‌های سازمانی و مدیریت پایگاه داده. در کنار کار، با Django و
+            Django REST چندین پروژه‌ی شخصی ساخته‌ام و به یادگیری و بهبود
+            مهارت‌هایم ادامه می‌دهم.
+        </p>
+    </section>
 
-            <h2>توسعه‌دهنده Python و Django</h2>
+    <!-- SKILLS -->
+    <section class="section">
+        <h2>مهارت‌ها</h2>
+        <div class="skills">
+            <span>Django</span>
+            <span>Django REST</span>
+            <span>Python</span>
+            <span>SQL Server</span>
+            <span>Git / GitHub</span>
+            <span>HTML / CSS</span>
+            <span>Celery</span>
+        </div>
+    </section>
 
-            <p>
-                توسعه‌دهنده بک‌اند با تمرکز بر طراحی و توسعه سیستم‌های تحت وب.
-                تجربه ساخت پروژه‌هایی مانند سامانه رزرو هتل، مدیریت کافه،
-                درخواست سفر و فروشگاه آنلاین را دارم.
-                علاقه‌مند به ساخت سیستم‌های تمیز، قابل توسعه و حرفه‌ای هستم.
-            </p>
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+        <h2>پروژه‌ها</h2>
 
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">
-                    مشاهده پروژه‌ها
+        <div class="grid-auto">
+            {% for project in projects %}
+                <a href="{% url 'project:detail' project.id %}" class="card-link">
+                    <div class="card">
+                        <h3>{{ project.name }}</h3>
+                        <p>{{ project.short_description }}</p>
+                    </div>
                 </a>
-            </div>
-
+            {% empty %}
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <div class="empty-icon">💻</div>
+                    <p>به‌زودی پروژه‌ها اینجا اضافه می‌شوند.</p>
+                </div>
+            {% endfor %}
         </div>
-
-    </div>
-
-</section>
-
-
-<!-- ABOUT -->
-<section class="section">
-
-    <h2>درباره من</h2>
-
-    <p>
-        من ۴ سال تجربه در توسعه نرم‌افزار دارم و روی پروژه‌های واقعی وب کار
-        کرده‌ام. تخصص من Django، طراحی API و پایگاه داده است.
-    </p>
-
-</section>
-
-
-<!-- SKILLS -->
-<section class="section">
-
-    <h2>مهارت‌ها</h2>
-
-    <div class="skills">
-        <span>Python</span>
-        <span>Django</span>
-        <span>Django REST</span>
-        <span>PostgreSQL</span>
-        <span>SQL Server</span>
-        <span>Git / GitHub</span>
-        <span>HTML / CSS</span>
-        <span>Celery</span>
-    </div>
-
-</section>
-
-
-<!-- PROJECTS -->
-<section class="section" id="projects">
-
-    <h2>پروژه‌ها</h2>
-
-    <div class="grid-auto">
-
-        <div class="card">
-            <h3>سامانه مدیریت و درخواست سفر آنلاین</h3>
-            <p>سیستم مدیریت سفر</p>
-        </div>
-
-        <div class="card">
-            <h3>سامانه رزرو آنلاین هتل</h3>
-            <p>سیستم رزرو آنلاین با نقشه و مدیریت کاربران</p>
-        </div>
-
-        <div class="card">
-            <h3>سیستم مدیریت کافه</h3>
-            <p>سیستم مدیریت سفارش و رزرو میز</p>
-        </div>
-
-        <div class="card">
-            <h3>فروشگاه اینترنتی</h3>
-            <p>فروشگاه با سبد خرید و مدیریت محصولات</p>
-        </div>
-        <div class="card">
-            <h3>سامانه مدیریت و آموزش مربی تکواندو</h3>
-            <p>آموزش تکواندو</p>
-        </div>
-    </div>
-
-</section>
+    </section>
 
 {% endblock %}
