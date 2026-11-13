@@ -44,7 +44,17 @@
             {{ project.full_description|linebreaks }}
         </div>
 
-        {% if project.video_file and project.video_file.url %}
+        {% if project.aparat_embed_url %}
+            <div class="description">
+                <h2>دموی سامانه</h2>
+                <div class="video-section video-embed">
+                    <iframe src="{{ project.aparat_embed_url }}"
+                            title="دموی {{ project.name }}"
+                            allowfullscreen
+                            loading="lazy"></iframe>
+                </div>
+            </div>
+        {% elif project.video_file and project.video_file.url %}
             <div class="description">
                 <h2>دموی سامانه</h2>
                 <div class="video-section">

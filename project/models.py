@@ -2,7 +2,7 @@ from django.db import models
 from django_jalali.db import models as jmodels
 from django.utils import timezone
 import jdatetime
-
+import re
 
 class Project(models.Model):
     EMPLOYER_CHOICES = (
@@ -27,6 +27,7 @@ class Project(models.Model):
     poster_image = models.FileField(upload_to='project/photo', default='project/photos/poster.jfif', blank=True,
                                     null=True)
     video_file = models.FileField(upload_to='project/videos/', blank=True, null=True)
+    aparat_url = models.URLField('لینک ویدیو در آپارات', blank=True)
 
     sort = models.IntegerField(default=0)
     status = models.CharField(choices=PROJECT_STATUS, max_length=50, default='Working')
@@ -60,3 +61,10 @@ class Project(models.Model):
         else:
             # اگر هنوز مشکل داشت، از روش دیگر استفاده کن
             return f"{jalali_date.strftime('%B')} {jalali_date.year}"
+
+    @property
+    def aparat_embed_url(self):
+        match = re.search(r'aparat\.com/v/([A-Za-z0-9]+)', self.aparat_url or '')
+        if not match:
+            return ''
+        return f'https://www.aparat.com/video/video/embed/videohash/{match.group(1)}/vt/frame'
